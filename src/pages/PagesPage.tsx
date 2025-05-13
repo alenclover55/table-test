@@ -31,6 +31,7 @@ const PagesPage: React.FC<{ data: Page[] }> = ({ data }) => {
       <GenericTable
         data={pages}
         columns={pageColumns}
+        filterKey="title"
         onEdit={setEditingPage}
       />
       <EditModal

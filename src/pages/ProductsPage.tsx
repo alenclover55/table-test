@@ -36,6 +36,7 @@ const ProductsPage: React.FC<{ data: Product[] }> = ({ data }) => {
       <GenericTable
         data={products}
         columns={productColumns}
+        filterKey="name"
         onEdit={setEditingProduct}
       />
       <EditModal

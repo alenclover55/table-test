@@ -34,6 +34,7 @@ const PricePlansPage: React.FC<{ data: PricePlan[] }> = ({ data }) => {
       <GenericTable
         data={pricePlans}
         columns={pricePlanColumns}
+        filterKey="description"
         onEdit={setEditingPricePlan}
       />
       <EditModal

@@ -4,6 +4,7 @@ import { TableProps, DataType } from "../types";
 export const GenericTable = <T extends DataType>({
   data,
   columns,
+  filterKey,
   onEdit,
 }: TableProps<T>) => {
   const [filter, setFilter] = useState<string>("");
@@ -25,14 +26,17 @@ export const GenericTable = <T extends DataType>({
     }
     return String(value);
   };
-  const filteredData = data.filter((item) =>
-    columns.some((column) => {
-      const value = item[column.key];
-      if (typeof value !== "string") return false;
-      return value.toLowerCase().includes(filter.toLowerCase());
-    })
-  );
+  function filterByKey<T>(data: T[], filter: string, key: string): T[] {
+    const filterLower = filter.toLowerCase();
 
+    return data.filter((item) => {
+      const value = item[key as keyof T];
+      return (
+        typeof value === "string" && value.toLowerCase().includes(filterLower)
+      );
+    });
+  }
+  const filteredByUsername = filterByKey(data, filter, filterKey);
   return (
     <div className="flex flex-col w-full">
       <div className="filter-container self-end mb-3">
@@ -45,7 +49,7 @@ export const GenericTable = <T extends DataType>({
         />
       </div>
 
-      {filteredData.length !== 0 ? (
+      {filteredByUsername.length !== 0 ? (
         <table className="data-table bg-amber-50 max-w-screen w-full">
           <thead>
             <tr>
@@ -61,7 +65,7 @@ export const GenericTable = <T extends DataType>({
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((item) => (
+            {filteredByUsername.map((item) => (
               <tr key={item.id}>
                 {columns.map((column) => (
                   <td

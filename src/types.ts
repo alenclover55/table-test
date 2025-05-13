@@ -39,6 +39,7 @@ export interface TableColumn<T> {
 export interface TableProps<T> {
   data: T[];
   columns: TableColumn<T>[];
+  filterKey: string;
   onEdit: (item: T) => void;
 }
 
